@@ -1,31 +1,110 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Chatbot</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GS IT SOLUTIONS - Chatbot</title>
     <style>
-        /* ... your other styles ... */
-        #chat-container {
-            width: 90%;
-            max-width: 400px;
-            height: 500px;
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        header {
+            background-color: #202123;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .webchat {
+            height: 500px; /* Adjust as needed */
+            width: 400px; /* Adjust as needed */
             border: 1px solid #ccc;
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
         }
+
+        #user-input-area {
+            display: flex;
+            width: 90%;
+            max-width: 400px;
+            margin-top: 10px;
+        }
+
+        #image-upload {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 1;
+            margin-right: 5px;
+        }
+
+        #message-box {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 2;
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #202123;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px;
+        }
     </style>
 </head>
+
 <body>
     <header>GS IT SOLUTIONS</header>
+
     <h2>COMPUTER HELPER</h2>
 
-    <div id="chat-container">
-        <iframe 
-            src="https://cdn.botpress.cloud/webchat/v2.3/shareable.html?configUrl=https://files.bpcontent.cloud/2025/02/13/07/20250213075559-O2F6QOKB.json" 
-            width="100%" 
-            height="100%"
-            frameborder="0">
-        </iframe>
+    <div class="webchat">
+        <iframe style="height: 100%; width: 100%; border: none;" srcdoc='
+    <!doctype html>
+    <html lang="en">
+      <head></head>
+      <body>
+        <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
+        <script defer>
+          window.botpress.on("webchat:ready", (conversationId) => {
+            botpress.open();
+          });
+          window.botpress.init({
+            "botId": "7f618c11-34df-4bd2-9377-fdc1982fe042",  // Your provided Client ID
+            "configuration": {
+              "website": {},
+              "email": {},
+              "phone": {},
+              "termsOfService": {},
+              "privacyPolicy": {},
+              "color": "#3B82F6", // Example customization
+              "variant": "solid",
+              "themeMode": "light",
+              "fontFamily": "inter",
+              "radius": 1
+            },
+            "clientId": "7f618c11-34df-4bd2-9377-fdc1982fe042" // Your provided Client ID
+          });
+        </script>
+      </body>
+    </html>'></iframe>
     </div>
 
     <div id="user-input-area">
@@ -35,20 +114,25 @@
     </div>
 
     <script>
-        // Your existing JavaScript for image upload and sending messages
-        // (but you don't need the Botpress initialization code anymore)
         document.getElementById('image-upload').addEventListener('change', function (event) {
-          // ... (your image upload code)
+            const file = event.target.files[0];
+            if (file) {
+                alert('Image uploaded: ' + file.name); // Placeholder - Implement your image upload
+            }
         });
 
         document.getElementById('send-button').addEventListener('click', function () {
             const message = document.getElementById('message-box').value;
-            // You'll need to figure out how to send this to the bot in the iframe
-            // This depends on how the bot is configured to receive external messages.
-            console.log("Message to send:", message); // Placeholder
-            document.getElementById('message-box').value = "";
+            if (message.trim() !== "") {
+                //  Important: You'll need to send this message to the iframe.
+                //  This requires communication between the parent window and the iframe
+                //  using postMessage.  This is complex and depends on how your Botpress
+                //  bot is set up to receive messages.
+                console.log("Message to send:", message); // Placeholder
+                document.getElementById('message-box').value = "";
+            }
         });
     </script>
-
 </body>
+
 </html>
