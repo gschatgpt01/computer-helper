@@ -1,31 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GS IT SOLUTIONS - Chatbot</title>
+    <title>Chatbot</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f4f4f4;
-            margin: 0;
-        }
-
-        header {
-            background-color: #202123;
-            color: white;
-            width: 100%;
-            padding: 15px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
+        /* ... your other styles ... */
         #chat-container {
             width: 90%;
             max-width: 400px;
@@ -34,50 +12,21 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
-            z-index: 1000; /* Ensure it's on top */
-            position: relative; /* Important for z-index to work */
-        }
-
-        #user-input-area {
-            display: flex;
-            width: 90%;
-            max-width: 400px;
-            margin-top: 10px;
-        }
-
-        #image-upload {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            flex: 1;
-            margin-right: 5px;
-        }
-
-        #message-box {
-            padding: 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            flex: 2;
-        }
-
-        #send-button {
-            padding: 10px;
-            border: none;
-            border-radius: 5px;
-            background-color: #202123;
-            color: white;
-            cursor: pointer;
-            margin-left: 5px;
         }
     </style>
 </head>
-
 <body>
     <header>GS IT SOLUTIONS</header>
-
     <h2>COMPUTER HELPER</h2>
 
-    <div id="chat-container"></div>
+    <div id="chat-container">
+        <iframe 
+            src="https://cdn.botpress.cloud/webchat/v2.3/shareable.html?configUrl=https://files.bpcontent.cloud/2025/02/13/07/20250213075559-O2F6QOKB.json" 
+            width="100%" 
+            height="100%"
+            frameborder="0">
+        </iframe>
+    </div>
 
     <div id="user-input-area">
         <input type="file" id="image-upload" accept="image/*">
@@ -85,59 +34,21 @@
         <button id="send-button">Send</button>
     </div>
 
-    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
-
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            function initializeChatbot() {
-                if (window.botpressWebChat) {
-                    window.botpressWebChat.init({
-                        "botId": "7f618c11-34df-4bd2-9377-fdc1982fe042", // **REPLACE WITH YOUR ACTUAL BOT ID IF DIFFERENT**
-                        "host": "https://cdn.botpress.cloud",
-                        "container": "#chat-container",
-                        "botName": "COMPUTER HELPER", // Customize bot name
-                        "stylesheet": "https://cdn.botpress.cloud/webchat/v1/themes/default.css", // or a custom stylesheet URL
-                        "showCloseButton": true,
-                        "showTitle": true,
-                        "enableTranscriptDownload": true,
-                        "layout": "embedded"
-                    });
-
-                    window.botpressWebChat.on("READY", () => {
-                        window.botpressWebChat.sendEvent({ type: "show" });
-                    });
-
-                    window.botpressWebChat.on("VISIBILITY_CHANGED", (isVisible) => {
-                        console.log("Chat visibility changed:", isVisible);
-                        if (isVisible) {
-                            document.getElementById('message-box').focus();
-                        }
-                    });
-
-                } else {
-                    console.error("Botpress WebChat failed to load.");
-                }
-            }
-
-            initializeChatbot(); // Call immediately since DOM is ready
-        });
-
+        // Your existing JavaScript for image upload and sending messages
+        // (but you don't need the Botpress initialization code anymore)
         document.getElementById('image-upload').addEventListener('change', function (event) {
-            const file = event.target.files[0];
-            if (file) {
-                // Placeholder - Implement your image upload logic here (using FormData and fetch/XMLHttpRequest)
-                alert('Image uploaded: ' + file.name);
-            }
+          // ... (your image upload code)
         });
 
         document.getElementById('send-button').addEventListener('click', function () {
             const message = document.getElementById('message-box').value;
-            if (message.trim() !== "") {
-                window.botpressWebChat.sendPayload({ type: "text", text: message });
-                document.getElementById('message-box').value = "";
-            }
+            // You'll need to figure out how to send this to the bot in the iframe
+            // This depends on how the bot is configured to receive external messages.
+            console.log("Message to send:", message); // Placeholder
+            document.getElementById('message-box').value = "";
         });
     </script>
-</body>
 
+</body>
 </html>
