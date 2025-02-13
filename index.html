@@ -85,18 +85,18 @@
         <button id="send-button">Send</button>
     </div>
 
-    <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
+    <script src="https://cdn.botpress.cloud/webchat/v2.2/inject.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             function initializeChatbot() {
                 if (window.botpressWebChat) {
                     window.botpressWebChat.init({
-                        "botId": "7f618c11-34df-4bd2-9377-fdc1982fe042",
+                        "botId": "7f618c11-34df-4bd2-9377-fdc1982fe042", // **REPLACE WITH YOUR ACTUAL BOT ID IF DIFFERENT**
                         "host": "https://cdn.botpress.cloud",
                         "container": "#chat-container",
-                        "botName": "COMPUTER HELPER",
-                        "stylesheet": "https://cdn.botpress.cloud/webchat/v1/themes/default.css",
+                        "botName": "COMPUTER HELPER", // Customize bot name
+                        "stylesheet": "https://cdn.botpress.cloud/webchat/v1/themes/default.css", // or a custom stylesheet URL
                         "showCloseButton": true,
                         "showTitle": true,
                         "enableTranscriptDownload": true,
@@ -110,11 +110,9 @@
                     window.botpressWebChat.on("VISIBILITY_CHANGED", (isVisible) => {
                         console.log("Chat visibility changed:", isVisible);
                         if (isVisible) {
-                          //  Focus on the message input when the chat becomes visible (optional)
-                          document.getElementById('message-box').focus();
+                            document.getElementById('message-box').focus();
                         }
-                      });
-
+                    });
 
                 } else {
                     console.error("Botpress WebChat failed to load.");
@@ -127,7 +125,7 @@
         document.getElementById('image-upload').addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
-                // Placeholder - Implement your image upload logic here
+                // Placeholder - Implement your image upload logic here (using FormData and fetch/XMLHttpRequest)
                 alert('Image uploaded: ' + file.name);
             }
         });
