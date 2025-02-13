@@ -34,10 +34,12 @@
             border-radius: 10px;
             overflow: hidden;
             margin-top: 20px;
+            z-index: 1000; /* Ensure it's on top */
+            position: relative; /* Important for z-index to work */
         }
 
-        #user-input-area { /* Container for user input elements */
-            display: flex; /* Use flexbox for layout */
+        #user-input-area {
+            display: flex;
             width: 90%;
             max-width: 400px;
             margin-top: 10px;
@@ -47,15 +49,15 @@
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            flex: 1; /* Allow image upload to take available space */
-            margin-right: 5px; /* Add some space between elements */
+            flex: 1;
+            margin-right: 5px;
         }
 
         #message-box {
             padding: 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
-            flex: 2; /* Allow message box to take more space */
+            flex: 2;
         }
 
         #send-button {
@@ -65,7 +67,7 @@
             background-color: #202123;
             color: white;
             cursor: pointer;
-            margin-left: 5px; /* Add space before the button */
+            margin-left: 5px;
         }
     </style>
 </head>
@@ -77,16 +79,16 @@
 
     <div id="chat-container"></div>
 
-    <div id="user-input-area">  <input type="file" id="image-upload" accept="image/*">
+    <div id="user-input-area">
+        <input type="file" id="image-upload" accept="image/*">
         <input type="text" id="message-box" placeholder="Type a message...">
         <button id="send-button">Send</button>
     </div>
 
-
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
 
     <script>
-        window.addEventListener("load", function () {
+        document.addEventListener('DOMContentLoaded', function () {
             function initializeChatbot() {
                 if (window.botpressWebChat) {
                     window.botpressWebChat.init({
@@ -102,30 +104,31 @@
                     });
 
                     window.botpressWebChat.on("READY", () => {
-                        window.botpressWebChat.sendEvent({ type: "show" }); // Show the chat
+                        window.botpressWebChat.sendEvent({ type: "show" });
                     });
+
+                    window.botpressWebChat.on("VISIBILITY_CHANGED", (isVisible) => {
+                        console.log("Chat visibility changed:", isVisible);
+                        if (isVisible) {
+                          //  Focus on the message input when the chat becomes visible (optional)
+                          document.getElementById('message-box').focus();
+                        }
+                      });
+
 
                 } else {
                     console.error("Botpress WebChat failed to load.");
                 }
             }
 
-            const interval = setInterval(() => {
-                if (window.botpressWebChat) {
-                    clearInterval(interval);
-                    initializeChatbot();
-                }
-            }, 500);
+            initializeChatbot(); // Call immediately since DOM is ready
         });
 
         document.getElementById('image-upload').addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
-                //  Implement your image upload logic here.  You'll likely need to
-                //  use FormData and XMLHttpRequest or the Fetch API to send the
-                //  image to your backend or directly to Botpress if it supports
-                //  file uploads.  The current code just shows an alert.
-                alert('Image uploaded: ' + file.name); 
+                // Placeholder - Implement your image upload logic here
+                alert('Image uploaded: ' + file.name);
             }
         });
 
