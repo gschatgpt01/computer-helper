@@ -5,28 +5,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GS IT SOLUTIONS - Chatbot</title>
     <style>
-        body { font-family: Arial, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; background-color: #f4f4f4; margin: 0; }
-        header { background-color: #202123; color: white; width: 100%; padding: 15px; text-align: center; font-size: 24px; font-weight: bold; }
-        #chat-container { width: 90%; max-width: 400px; height: 500px; border: 1px solid #ccc; border-radius: 10px; overflow: hidden; margin-top: 20px; }
-        #image-upload, #message-box { margin-top: 10px; padding: 10px; border-radius: 5px; border: 1px solid #ccc; width: 90%; max-width: 400px; }
-        #send-button { margin-top: 5px; padding: 10px; border: none; border-radius: 5px; background-color: #202123; color: white; cursor: pointer; width: 90%; max-width: 400px; }
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+            margin: 0;
+        }
+
+        header {
+            background-color: #202123;
+            color: white;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        #chat-container {
+            width: 90%;
+            max-width: 400px;
+            height: 500px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        #user-input-area { /* Container for user input elements */
+            display: flex; /* Use flexbox for layout */
+            width: 90%;
+            max-width: 400px;
+            margin-top: 10px;
+        }
+
+        #image-upload {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 1; /* Allow image upload to take available space */
+            margin-right: 5px; /* Add some space between elements */
+        }
+
+        #message-box {
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            flex: 2; /* Allow message box to take more space */
+        }
+
+        #send-button {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #202123;
+            color: white;
+            cursor: pointer;
+            margin-left: 5px; /* Add space before the button */
+        }
     </style>
 </head>
+
 <body>
     <header>GS IT SOLUTIONS</header>
-    
+
     <h2>COMPUTER HELPER</h2>
-    
+
     <div id="chat-container"></div>
-    
-    <input type="file" id="image-upload" accept="image/*">
-    <input type="text" id="message-box" placeholder="Type a message...">
-    <button id="send-button">Send</button>
-    
+
+    <div id="user-input-area">  <input type="file" id="image-upload" accept="image/*">
+        <input type="text" id="message-box" placeholder="Type a message...">
+        <button id="send-button">Send</button>
+    </div>
+
+
     <script src="https://cdn.botpress.cloud/webchat/v1/inject.js"></script>
-    
+
     <script>
-        window.addEventListener("load", function() {
+        window.addEventListener("load", function () {
             function initializeChatbot() {
                 if (window.botpressWebChat) {
                     window.botpressWebChat.init({
@@ -40,15 +100,16 @@
                         "enableTranscriptDownload": true,
                         "layout": "embedded"
                     });
-                    
-                    // Ensure chat is visible
-                    window.botpressWebChat.sendEvent({ type: "show" });
+
+                    window.botpressWebChat.on("READY", () => {
+                        window.botpressWebChat.sendEvent({ type: "show" }); // Show the chat
+                    });
+
                 } else {
                     console.error("Botpress WebChat failed to load.");
                 }
             }
-            
-            // Wait for the script to fully load before initializing
+
             const interval = setInterval(() => {
                 if (window.botpressWebChat) {
                     clearInterval(interval);
@@ -57,14 +118,18 @@
             }, 500);
         });
 
-        document.getElementById('image-upload').addEventListener('change', function(event) {
+        document.getElementById('image-upload').addEventListener('change', function (event) {
             const file = event.target.files[0];
             if (file) {
-                alert('Image uploaded: ' + file.name); // Here you can integrate image upload logic
+                //  Implement your image upload logic here.  You'll likely need to
+                //  use FormData and XMLHttpRequest or the Fetch API to send the
+                //  image to your backend or directly to Botpress if it supports
+                //  file uploads.  The current code just shows an alert.
+                alert('Image uploaded: ' + file.name); 
             }
         });
 
-        document.getElementById('send-button').addEventListener('click', function() {
+        document.getElementById('send-button').addEventListener('click', function () {
             const message = document.getElementById('message-box').value;
             if (message.trim() !== "") {
                 window.botpressWebChat.sendPayload({ type: "text", text: message });
@@ -73,4 +138,5 @@
         });
     </script>
 </body>
+
 </html>
